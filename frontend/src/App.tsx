@@ -1,75 +1,78 @@
 
 import { useEffect, useState } from "react";
+import { auth } from "./config/firebase";
 import { checkBackendHealth } from "./services/healthService";
 
 function App() {
-  const [status, setStatus] = useState("CHECKING");
-  const [message, setMessage] = useState("");
+  const [backendStatus, setBackendStatus] =
+    useState("CHECKING");
+
+  const [backendMessage, setBackendMessage] =
+    useState("");
 
   useEffect(() => {
-    const checkConnection = async () => {
-      try {
-        const response = await checkBackendHealth();
-        setStatus(response.status);
-        setMessage(response.message);
-      } catch {
-        setStatus("OFFLINE");
-        setMessage("Unable to connect to Spring Boot backend.");
-      }
-    };
-
-    checkConnection();
+    checkBackendHealth()
+      .then((response) => {
+        setBackendStatus(response.status);
+        setBackendMessage(response.message);
+      })
+      .catch(() => {
+        setBackendStatus("OFFLINE");
+        setBackendMessage("Backend connection failed.");
+      });
   }, []);
 
-  return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-lg rounded-2xl bg-white p-8 shadow-xl">
+  const firebaseConfigured = Boolean(
+    auth.app.options.projectId &&
+    auth.app.options.apiKey
+  );
 
-        <h1 className="text-4xl font-bold text-blue-700">
+  return (
+    <main className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
+      <section className="w-full max-w-xl rounded-2xl bg-white p-8 shadow-lg">
+        <h1 className="text-3xl font-bold text-blue-700">
           SmartPOS
         </h1>
 
         <p className="mt-2 text-gray-500">
-          Point of Sale & Inventory Management System
+          Development Environment — Day 3
         </p>
 
-        <div className="mt-8 rounded-xl bg-slate-50 p-5">
-          <h2 className="text-lg font-semibold text-slate-700">
-            Backend Connection
-          </h2>
+        <div className="mt-8 space-y-4">
+          <div className="rounded-xl bg-slate-50 p-4">
+            <h2 className="font-semibold">
+              Spring Boot Backend
+            </h2>
 
-          <div className="mt-4 flex items-center gap-2">
-            <div
-              className={`h-3 w-3 rounded-full ${
-                status === "UP"
-                  ? "bg-green-500"
-                  : status === "CHECKING"
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
-              }`}
-            />
+            <p className="mt-2">
+              Status: {backendStatus}
+            </p>
 
-            <span
-              className={`font-bold ${
-                status === "UP"
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
-            >
-              {status}
-            </span>
+            <p className="text-sm text-gray-500">
+              {backendMessage}
+            </p>
           </div>
 
-          <p className="mt-3 text-sm text-gray-500">
-            {message}
-          </p>
-        </div>
+          <div className="rounded-xl bg-slate-50 p-4">
+            <h2 className="font-semibold">
+              Firebase Web SDK
+            </h2>
 
-        <p className="mt-8 text-center text-xs text-gray-400">
-          SmartPOS Development Environment
-        </p>
-      </div>
-    </div>
+            <p className="mt-2">
+              Configuration:{" "}
+              {firebaseConfigured
+                ? "INITIALIZED"
+                : "MISSING"}
+            </p>
+
+            <p className="mt-1 text-sm text-gray-500">
+              Project ID:{" "}
+              {auth.app.options.projectId ?? "Not configured"}
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
 

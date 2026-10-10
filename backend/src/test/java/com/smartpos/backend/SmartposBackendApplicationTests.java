@@ -1,13 +1,15 @@
-package com.smartpos.smartpos_backend;
+
+package com.smartpos.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(
+    classes = SmartposBackendApplication.class
+)
 class SmartposBackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+    }
 }
