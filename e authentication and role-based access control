@@ -1,0 +1,19 @@
+ .../smartpos/backend/config/Day4FirebaseBeans.java |  28 [32m++++++[m
+ .../smartpos/backend/config/LocalDemoUsers.java    |  60 [32m++++++++++++[m
+ .../smartpos/backend/config/SecurityConfig.java    | 107 [32m++++++++[m[31m-------------[m
+ .../backend/controller/UserController.java         |  27 [32m++++++[m
+ .../security/FirebaseAuthenticationFilter.java     |  78 [32m+++++++++++++++[m
+ .../smartpos/backend/security/UserPrincipal.java   |   5 [32m+[m
+ .../main/resources/application-local.properties    |   6 [32m+[m[31m-[m
+ .../backend/SmartposBackendApplicationTests.java   |  13 [32m+[m[31m--[m
+ docs/day4-authentication.md                        |  35 [32m+++++++[m
+ frontend/.env.example                              |   7 [32m++[m
+ frontend/src/App.tsx                               |  98 [32m++++[m[31m---------------[m
+ frontend/src/components/ProtectedRoute.tsx         |  10 [32m++[m
+ frontend/src/config/firebase.ts                    |  26 [32m++[m[31m---[m
+ frontend/src/context/AuthContext.tsx               |  58 [32m+++++++++++[m
+ frontend/src/pages/AdminPage.tsx                   |  12 [32m+++[m
+ frontend/src/pages/DashboardPage.tsx               |  20 [32m++++[m
+ frontend/src/pages/LoginPage.tsx                   |  41 [32m++++++++[m
+ frontend/src/services/api.ts                       |  17 [32m++[m[31m--[m
+ 18 files changed, 468 insertions(+), 180 deletions(-)
